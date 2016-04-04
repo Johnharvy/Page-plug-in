@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page</title>
+    <script src="../jquery/jquery.js"></script>
+    <script src="page.js"></script>
+    <style>
+       .bg{width:30px;height:30px;margin-left:10px;background: #456;float:left;margin-top:10px;text-align: center;line-height: 30px;border-radius:5px;}
+       a{text-decoration: none;color:#fff;}
+       .start{width:100px;height:30px;float:left;margin-top: 10px;text-align: center;line-height: 30px;color:#fff;background: #456;cursor:pointer;margin-left: 10px;border-radius:5px;}
+       .end{width:100px;height:30px;float:left;margin-top: 10px;text-align: center;line-height: 30px;color:#fff;background: #456;margin-left:10px;cursor:pointer;border-radius:5px;}
+       .total{width:120px;height:30px;float:left;margin-top:10px;text-align:center;line-height:30px;background: #456;color: #fff;border-radius:5px;}
+    </style>
+</head>
+<body>
+    <div class="a1"></div>
+    <script>
+        var o1={totalItems:10}; 
+        $(".a1").page(o1);
+    </script>
+</body>
+</html>
