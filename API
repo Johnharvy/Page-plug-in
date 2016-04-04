@@ -1,0 +1,17 @@
+你需要创建一个如下的对象放到方法参数中去覆盖默认的属性，内容可以不全，因为默认的属性不被覆盖也可以使用：
+  var o1={
+            prePage:"上一页",
+            nextPage:"下一页",
+            totalItems:100,
+            pageItems:5,
+            maxPages:8,
+            pageEvent:exampleFunc,  //当前选取的jquery对象为参数 
+            
+        }; 
+
+         function exampleFunc(jq){
+          alert(jq.html());
+          return jq;
+        }
+        
+        $(".a1").page(o1);
