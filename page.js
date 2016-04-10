@@ -4,8 +4,8 @@
         prePage:"上一页",
         nextPage:"下一页",
         totalItems:1,
-        pageItems:2,
-        maxPages:3,
+        pageItems:5,
+        maxPages:8,
         pageEvent:exampleFunc,  //当前选取的jquery对象为参数 
      };
 
@@ -33,6 +33,8 @@
      var $elm; //选取的当前dom对象的jquery对象
      var endTeam;
      var maxPages;
+     var dispatcher="跳转到";
+     var endWord="页";
      Paper.prototype={
            init:function(){
               this.renderHtml();
@@ -76,11 +78,13 @@
                for(var i=0;i<items[0].length;++i){
                divStr="<div class='bg'><a href='#'>"+(a*this.options.maxPages+i+1)+"</a></div>";
                     temp.push(divStr);
-                    
-               }
+                }
                temp.unshift("<div class='start'>"+this.options.prePage+"</div>");
                temp.unshift("<div class='total'>共有"+totalPages+"页</div>");
                temp.push("<div class='end'>"+this.options.nextPage+"</div>");
+               temp.push("<div class='bg2'>"+dispatcher+"</div>");
+               temp.push("<input class='input' placeholder='1'>");
+               temp.push("<div class='bg3'>"+endWord+"</div>");
 
                this.$elm.html(temp.join(""));
 
@@ -93,6 +97,7 @@
               var that= this.options;
               maxPages=this.options.maxPages;
 
+             //点击相应某页
             $(".bg").live("click",function(){
                 that.pageEvent($(this).children("a"));
                 $(this).children("a").css("color","red");
@@ -100,6 +105,7 @@
                
             });
 
+               //点击上一页
             $(".start").live("click",function(){
                 if(a>0)a=a-1;
                 else return;
@@ -113,13 +119,17 @@
                temp.unshift("<div class='start'>"+prePage+"</div>");
                temp.unshift("<div class='total'>共有"+totalPages+"页</div>");
                temp.push("<div class='end'>"+nextPage+"</div>");
+               temp.push("<div class='bg2'>"+dispatcher+"</div>");
+               temp.push("<input class='input' placeholder='1'>");
+               temp.push("<div class='bg3'>"+endWord+"</div>");
                $elm.html(temp.join(""));
             });
 
+                 //点击下一页
             $(".end").live("click",function(){
-                temp=[];
+                temp=[]; //temp初始为空数组
                 
-                if(items[teams]===undefined){
+                if(items[teams]===undefined){  //最后剩余的一组不存在
                       if(a<teams-1)a=a+1;
                       else return;
                 for(var i=0;i<items[a].length;++i){
@@ -137,11 +147,43 @@
                temp.unshift("<div class='start'>"+prePage+"</div>");
                temp.unshift("<div class='total'>共有"+totalPages+"页</div>");
                temp.push("<div class='end'>"+nextPage+"</div>");
+               temp.push("<div class='bg2'>"+dispatcher+"</div>");
+               temp.push("<input class='input' placeholder='1'>");
+               temp.push("<div class='bg3'>"+endWord+"</div>");
                $elm.html(temp.join(""));
             });
-           }
+                      //点击跳转
+               $(".bg2").live("click",function(){
+                  
+                     temp=[];
+                    var input=$(".input").val();
+                  
+                    if(isNaN(parseInt(input))==true)  a=1;  //字符类型字符串，包括空字符
+                    else{
+                       
+                        if(input%maxPages===0)  a=parseInt(input/maxPages);
+                          else{
+                             a=parseInt(input/maxPages)+1;
+                             var c=input%maxPages;
+                          }
+                    }  
+                    a=a-1;
+                    for(var i=0;i<items[a].length;++i){
+                    
+                    divStr="<div class='bg'><a href='#'>"+((a)*maxPages+1+i)+"</a></div>";
+                    temp.push(divStr); 
+                }
 
-     };
+                   temp.unshift("<div class='start'>"+prePage+"</div>");
+                   temp.unshift("<div class='total'>共有"+totalPages+"页</div>");
+                   temp.push("<div class='end'>"+nextPage+"</div>");
+                   temp.push("<div class='bg2'>"+dispatcher+"</div>");
+                   temp.push("<input class='input' placeholder='1'>");
+                   temp.push("<div class='bg3'>"+endWord+"</div>");
+                   $elm.html(temp.join(""));
+                });
+           }
+           };
 
 
      $.fn.page=function(options){
