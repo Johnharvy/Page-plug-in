@@ -87,7 +87,8 @@
                temp.push("<div class='bg3'>"+endWord+"</div>");
 
                this.$elm.html(temp.join(""));
-
+               $(".bg").eq(0).children("a").css("color","red");
+               this.options.pageEvent($(".bg").eq(0).children("a"));
            },
            bindEvent:function(){
               var Pages=this.options.totalItems/this.options.pageItems; //总页数
@@ -99,7 +100,7 @@
 
              //点击相应某页
             $(".bg").live("click",function(){
-                that.pageEvent($(this).children("a"));
+                that.pageEvent($(this).children("a"));  //每页触发事件
                 $(this).children("a").css("color","red");
                 $(this).siblings().children("a").css("color","#fff");
                
@@ -160,13 +161,16 @@
                   
                     if(isNaN(parseInt(input))==true)  a=1;  //字符类型字符串，包括空字符
                     else{
-                       
+                        if(parseInt(input)>totalPages)return; //如果输入大于总页数，不响应
+                          else{
                         if(input%maxPages===0)  a=parseInt(input/maxPages);
                           else{
-                             a=parseInt(input/maxPages)+1;
-                             var c=input%maxPages;
+                             a=parseInt(input/maxPages)+1;  //跳转页所在组
+                             var c=input%maxPages;   //在组的位置
                           }
+                        }
                     }  
+
                     a=a-1;
                     for(var i=0;i<items[a].length;++i){
                     
@@ -181,6 +185,9 @@
                    temp.push("<input class='input' placeholder='1'>");
                    temp.push("<div class='bg3'>"+endWord+"</div>");
                    $elm.html(temp.join(""));
+                   $(".bg").eq(c-1).children("a").css("color","red");
+                    that.pageEvent($(".bg").eq(c-1).children("a"));  //跳转触发相应页显示
+
                 });
            }
            };
