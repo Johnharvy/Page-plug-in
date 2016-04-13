@@ -1,8 +1,8 @@
 ;(function($,window,document,undefined){
      var defaults={
         
-        prePage:"上一页",
-        nextPage:"下一页",
+        prePage:"上一节",
+        nextPage:"下一节",
         totalItems:1,
         pageItems:5,
         maxPages:8,
